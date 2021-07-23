@@ -1,15 +1,15 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
 
 // SET TO /api/blogs //
 
+// return all blogs
 blogsRouter.get('/', async (request, response) => {
-  // return all blogs
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
+// add new blog
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
   const user = request.user
@@ -40,6 +40,7 @@ blogsRouter.post('/', async (request, response) => {
   response.status(200).json(savedBlog)
 })
 
+// get blog by id
 blogsRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   if (blog) {
@@ -49,6 +50,7 @@ blogsRouter.get('/:id', async (request, response) => {
   }
 })
 
+// remove blog
 blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   const user = request.user
@@ -65,12 +67,16 @@ blogsRouter.delete('/:id', async (request, response) => {
   }
 })
 
+// update likes for blog
 blogsRouter.put('/:id', async (request, response) => {
-  const blog = {
-    likes: request.body.likes
+  const blog = await Blog.findById(request.params.id)
+
+  const updatedBlog = {
+    likes: blog.likes + 1
   }
-  const updated = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true, runValidators: true, context: 'query' })
-  response.json(updated)
+
+  const updated = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, { new: true, runValidators: true, context: 'query' }).populate('user', { username: 1, name: 1 })
+  return response.json(updated)
 })
 
 module.exports = blogsRouter

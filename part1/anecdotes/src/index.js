@@ -50,7 +50,6 @@ const App = () => {
       <Button handleClick={nextAnecdote} text='Next anecdote' />
       <p><strong>Anecdote with most votes</strong></p>
       <p>{anecdotes[highest]}</p>
-      {/* TODO return anecdote with most votes */}
     </>
   )
 }

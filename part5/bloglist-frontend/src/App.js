@@ -48,7 +48,6 @@ const App = () => {
   const likeBlog = async (blogId) => {
     const response = await blogService.like(blogId)
     console.log(response)
-    // TODO update blog entry by id
     // set state
     setBlogs(blogs.map(n => n.id === blogId ? response : n))
   }

@@ -13,7 +13,6 @@ export const initAnecdotes = () => {
 export const addVote = anecdote => {
   return async dispatch => {
     const response = await anecdoteService.vote(anecdote)
-    console.log(response)
     dispatch({
       type: 'VOTE',
       updated: response

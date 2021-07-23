@@ -122,7 +122,7 @@ describe('can delete or update single posts', ()=> {
       .expect(200)
     
     const updated = await api.get(`/api/blogs/${blogId}`)
-    expect(updated.body.likes).toEqual(10)
+    expect(updated.body.likes).toEqual(2)
   })
 
   test('can delete single post', async ()=> {
