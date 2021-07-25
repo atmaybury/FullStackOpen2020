@@ -1,11 +1,12 @@
 import axios from 'axios'
+import store from '../store'
+
 const baseUrl = '/api/blogs'
 
-let token = null
-
 // create bearer token for header
-const setToken = newToken => {
-  token = `bearer ${newToken}`
+const setToken = () => {
+  const state = store.getState()
+  return `bearer ${state.user.token}`
 }
 
 // get all blogs
@@ -16,6 +17,7 @@ const getAll = async () => {
 
 // post new blog
 const create = async newObject => {
+  const token = setToken()
   const config = {
     headers: { Authorization: token }
   }
@@ -29,7 +31,17 @@ const like = async id => {
   return response.data
 }
 
-const deletePost = async id => {
+const addComment = async (blogId, comment) => {
+  const token = setToken()
+  const config = {
+    headers: { Authorization: token }
+  }
+  const response = await axios.post(`${baseUrl}/${blogId}/comment`, { comment: comment }, config)
+  return response.data
+}
+
+const deleteBlog = async id => {
+  const token = setToken()
   const config = {
     headers: { Authorization: token }
   }
@@ -37,4 +49,4 @@ const deletePost = async id => {
   return response.data
 }
 
-export default { setToken, getAll, create, like, deletePost }
+export default { getAll, create, like, addComment, deleteBlog }

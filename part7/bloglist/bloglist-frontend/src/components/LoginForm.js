@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { login } from '../reducers/loginReducer'
 
-const LoginForm = ({ submitLogin }) => {
+const LoginForm = () => {
+
+  const dispatch = useDispatch()
 
   const [loginInputs, setLoginInputs] = useState({
     username: '',
@@ -18,11 +22,10 @@ const LoginForm = ({ submitLogin }) => {
   // create login object, pass back to App's submitLogin func
   const handleLogin = (event) => {
     event.preventDefault()
-    //
-    submitLogin({
+    dispatch(login({
       username: loginInputs.username,
       password: loginInputs.password
-    })
+    }))
     // reset input fields
     setLoginInputs({
       username: '',

@@ -9,8 +9,8 @@ const Notification = () => {
   }
   */
 
-  const success = useSelector(state => state.success)
-  const message = useSelector(state => state.message)
+  const success = useSelector(state => state.notification.success)
+  const message = useSelector(state => state.notification.message)
 
   const notificationStyle = {
     background: 'lightgrey',

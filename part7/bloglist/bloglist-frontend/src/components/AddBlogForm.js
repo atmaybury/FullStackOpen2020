@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addBlog } from '../reducers/blogReducer'
 
-const AddBlogForm = ({ submitBlog }) => {
+const AddBlogForm = () => {
+
+  const dispatch = useDispatch()
 
   const [blogInputs, setBlogInputs] = useState({
     title: '',
@@ -17,13 +21,13 @@ const AddBlogForm = ({ submitBlog }) => {
   }
 
   // create blog object, pass back to App's submitBlog func
-  const addBlog = (event) => {
+  const submitBlog = (event) => {
     event.preventDefault()
-    submitBlog({
+    dispatch(addBlog({
       title: blogInputs.title,
       author: blogInputs.author,
       url: blogInputs.url
-    })
+    }))
     // reset input fields
     setBlogInputs({
       title: '',
@@ -33,10 +37,16 @@ const AddBlogForm = ({ submitBlog }) => {
   }
 
   return(
-    <form id='add-blog-form' onSubmit={addBlog}>
-      <div>Title: <input id='blog-title-input' name="title" value={blogInputs.title} onChange={handleBlogInputs} /></div>
-      <div>Author: <input id='blog-author-input' name="author" value={blogInputs.author} onChange={handleBlogInputs} /></div>
-      <div>URL: <input id='blog-url-input' name="url" value={blogInputs.url} onChange={handleBlogInputs} /></div>
+    <form id='add-blog-form' onSubmit={submitBlog}>
+      <div>Title:
+        <input id='blog-title-input' name="title" value={blogInputs.title} onChange={handleBlogInputs} />
+      </div>
+      <div>Author:
+        <input id='blog-author-input' name="author" value={blogInputs.author} onChange={handleBlogInputs} />
+      </div>
+      <div>URL:
+        <input id='blog-url-input' name="url" value={blogInputs.url} onChange={handleBlogInputs} />
+      </div>
       <button id='submit-blog-button' type="submit">add</button>
     </form>
   )
