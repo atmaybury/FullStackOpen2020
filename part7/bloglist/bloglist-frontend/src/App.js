@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react'
-import { Switch, Route, Link, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { checkLoggedInUser, logout } from './reducers/loginReducer'
+import { checkLoggedInUser } from './reducers/loginReducer'
 import { initUsers } from './reducers/userReducer'
 import { initBlogs } from './reducers/blogReducer'
 import LoginForm from './components/LoginForm'
+import Header from './components/Header'
 import Notification from './components/Notification'
 import AddBlogForm from './components/AddBlogForm'
 import BlogsPanel from './components/BlogsPanel'
@@ -48,7 +49,7 @@ const App = () => {
 
   // only show login form if not logged in
   if (user === null) {
-    return(
+    return (
       <div>
         <LoginForm />
         <br />
@@ -61,10 +62,7 @@ const App = () => {
   return (
     <div>
 
-      <div id="nav-menu">
-        <Link to='/blogs'>blogs</Link> | <Link to='/users'>users</Link> | logged in as {user.name}
-        <button onClick={() => dispatch(logout())}>log out</button>
-      </div>
+      <Header />
 
       <Notification />
 
