@@ -1,62 +1,49 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { login } from '../reducers/loginReducer'
+import { useField } from '../hooks/index'
+import { Button } from './styles/Buttons.style'
+
+const Input = styled.input`
+  margin: 0.25em 0em 0.25em 0em;
+  border-radius: 0.25em;
+`
 
 const LoginForm = () => {
 
   const dispatch = useDispatch()
 
-  const [loginInputs, setLoginInputs] = useState({
-    username: '',
-    password: ''
-  })
+  const username = useField('text')
+  const password = useField('text')
 
-  // update states with user input
-  const handleLoginInputs = e => {
-    setLoginInputs({
-      ...loginInputs,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  // create login object, pass back to App's submitLogin func
   const handleLogin = (event) => {
     event.preventDefault()
     dispatch(login({
-      username: loginInputs.username,
-      password: loginInputs.password
+      username: username.fields.value,
+      password: password.fields.value
     }))
-    // reset input fields
-    setLoginInputs({
-      username: '',
-      password: ''
-    })
+    username.reset()
+    password.reset()
   }
 
   return (
     <form id='login-form' onSubmit={handleLogin}>
       <h2>login</h2>
       <div>
-        username
-        <input
-          id='username-input'
-          type="text"
-          name="username"
-          value={loginInputs.username}
-          onChange={handleLoginInputs}
+        <Input { ...username.fields }
+          id="username-input"
+          placeholder="username"
         />
       </div>
       <div>
-        password
-        <input
-          id='password-input'
-          type="text"
-          name="password"
-          value={loginInputs.password}
-          onChange={handleLoginInputs}
+        <Input
+          { ...password.fields }
+          id="password-input"
+          placeholder="password"
         />
       </div>
-      <button id='login-button' type="submit">login</button>
+      <Button id='login-button' type="submit">login</Button>
     </form>
   )
 }

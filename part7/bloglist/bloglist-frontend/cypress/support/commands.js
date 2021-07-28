@@ -11,14 +11,14 @@ Cypress.Commands.add('login', (user) => {
   cy.request('POST', `${backendUrl}/login`, {
     username: user.username, password: user.password
   }).then(response => {
-    localStorage.setItem('loggedUser', JSON.stringify(response.body))
+    localStorage.setItem('loggedInUser', JSON.stringify(response.body))
     cy.visit(`${frontendUrl}`)
   })
 })
 
 // logout
 Cypress.Commands.add('logout', () => {
-  localStorage.removeItem('loggedUser')
+  localStorage.removeItem('loggedInUser')
   cy.visit(`${frontendUrl}`)
 })
 
@@ -29,7 +29,7 @@ Cypress.Commands.add('addBlog', (blog) => {
     method: 'POST',
     body: blog,
     headers: {
-      'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedUser')).token}`
+      'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedInUser')).token}`
     }
   })
   cy.visit(`${frontendUrl}`)

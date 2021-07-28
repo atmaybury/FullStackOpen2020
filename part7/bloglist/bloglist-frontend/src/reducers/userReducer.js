@@ -2,11 +2,15 @@ import usersService from '../services/users'
 
 export const initUsers = () => {
   return async dispatch => {
-    const users = await usersService.getUsers()
-    dispatch({
-      type: 'INIT_USERS',
-      data: users
-    })
+    try {
+      const users = await usersService.getUsers()
+      dispatch({
+        type: 'INIT_USERS',
+        data: users
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

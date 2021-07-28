@@ -63,22 +63,13 @@ blogsRouter.post('/:id/comment', async (request, response) => {
   // add commment id to blog's comments array
   blog.comments = blog.comments.concat(savedComment._id)
   updatedBlog = await blog.save()
-  await updatedBlog.populate('comments', { comment: 1 }).execPopulate()
-  console.log(updatedBlog.comments)
+  await updatedBlog
+    .populate('user', { username: 1, name: 1 })
+    .populate('comments', { comment: 1 })
+    .execPopulate()
+  console.log(updatedBlog.user)
 
   return response.status(200).json(updatedBlog)
-})
-
-// get blog by id
-blogsRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
-    .populate('user', { username: 1, name: 1 })
-    .populate('comment', { comment: 1 })
-  if (blog) {
-    return response.json(blog)
-  } else {
-    return response.status(404).end()
-  }
 })
 
 // remove blog

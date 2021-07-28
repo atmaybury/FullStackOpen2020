@@ -1,4 +1,5 @@
 import loginService from '../services/login'
+import { notify } from './notificationReducer'
 
 export const setLoggedInUser = user => {
   return {
@@ -8,10 +9,15 @@ export const setLoggedInUser = user => {
 }
 export const login = credentials => {
   return async dispatch => {
-    const user = await loginService.login(credentials)
-    window.localStorage.setItem('loggedInUser', JSON.stringify(user))
-    console.log(user)
-    dispatch(setLoggedInUser(user))
+    try {
+      const user = await loginService.login(credentials)
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user))
+      console.log(user)
+      dispatch(setLoggedInUser(user))
+    } catch (error) {
+      console.log(error.response)
+      dispatch(notify(false, error.response.data.error, 5))
+    }
   }
 }
 
@@ -29,6 +35,8 @@ export const checkLoggedInUser = () => {
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON)
       dispatch(setLoggedInUser(user))
+    } else {
+      dispatch({ type: 'LOGOUT', action: null })
     }
   }
 }

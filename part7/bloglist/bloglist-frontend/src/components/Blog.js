@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 import CommentsList from './CommentsList'
 import AddComment from './AddComment'
+import { Button } from './styles/Buttons.style'
 
 const Blog = ({ blog }) => {
 
@@ -23,14 +24,14 @@ const Blog = ({ blog }) => {
   }
 
   return(
-    <div>
+    <div className="blog">
       <h2>{blog.title} by {blog.author}</h2>
       <p><a href={blog.url}>{blog.url}</a></p>
-      <p>{blog.likes} likes</p>
-      <button className="like-button" onClick={() => dispatch(likeBlog(blog.id))}>like</button><br/>
+      <p className="likes">{blog.likes} likes</p>
+      <Button className="like-button" onClick={() => dispatch(likeBlog(blog.id))}>like</Button><br/>
       <p>Added by {blog.user.name}</p>
       {blog.user.username === user.username &&
-        <button onClick={deletePost}>delete</button>
+        <Button className="delete-button" onClick={deletePost}>delete</Button>
       }
       <AddComment blogId={blog.id} />
       <CommentsList comments={blog.comments} />

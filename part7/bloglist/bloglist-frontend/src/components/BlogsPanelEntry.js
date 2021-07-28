@@ -1,19 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Entry = styled.div`
+  padding: 0.5em;
+  border: solid;
+  border-width: 0.1em;
+  border-radius: 0.25em;
+  margin: 0.5em 0 0.5em;
+`
 
 const BlogsPanelEntry = ({ blog }) => {
-
-  const blogStyle = {
-    padding: 5,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  return(
-    <div className='blog' style={blogStyle}>
+  return (
+    <Entry className='blog'>
       <Link to={`/blogs/${blog.id}`}>{blog.title}</Link> by {blog.author}
-    </div>
+    </Entry>
   )
 }
+
 export default BlogsPanelEntry

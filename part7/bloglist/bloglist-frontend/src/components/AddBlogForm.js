@@ -1,53 +1,52 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
+import { useField } from '../hooks/index'
+import { Button } from './styles/Buttons.style'
 
 const AddBlogForm = () => {
 
   const dispatch = useDispatch()
 
-  const [blogInputs, setBlogInputs] = useState({
-    title: '',
-    author: '',
-    url: ''
-  })
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
-  // handle user input fields
-  const handleBlogInputs = e => {
-    setBlogInputs({
-      ...blogInputs,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  // create blog object, pass back to App's submitBlog func
   const submitBlog = (event) => {
     event.preventDefault()
     dispatch(addBlog({
-      title: blogInputs.title,
-      author: blogInputs.author,
-      url: blogInputs.url
+      title: title.fields.value,
+      author: author.fields.value,
+      url: url.fields.value
     }))
-    // reset input fields
-    setBlogInputs({
-      title: '',
-      author: '',
-      url: ''
-    })
+    title.reset()
+    author.reset()
+    url.reset()
   }
 
   return(
     <form id='add-blog-form' onSubmit={submitBlog}>
-      <div>Title:
-        <input id='blog-title-input' name="title" value={blogInputs.title} onChange={handleBlogInputs} />
+      <div>
+        <input { ...title.fields }
+          id="blog-title-input"
+          placeholder="title"
+        />
       </div>
-      <div>Author:
-        <input id='blog-author-input' name="author" value={blogInputs.author} onChange={handleBlogInputs} />
+      <div>
+        <input
+          { ...author.fields }
+          id="blog-author-input"
+          placeholder="author"
+        />
       </div>
-      <div>URL:
-        <input id='blog-url-input' name="url" value={blogInputs.url} onChange={handleBlogInputs} />
+      <div>
+        <input
+          { ...url.fields }
+          id="blog-url-input"
+          placeholder="url"
+        />
       </div>
-      <button id='submit-blog-button' type="submit">add</button>
+      <Button id='submit-blog-button' type="submit">add</Button>
     </form>
   )
 }

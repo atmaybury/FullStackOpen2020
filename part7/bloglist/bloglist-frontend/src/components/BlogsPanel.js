@@ -8,6 +8,7 @@ const BlogsPanel = () => {
 
   return(
     <div id='blogs'>
+      <h2>blogs</h2>
       {blogs.sort((a, b) => (b.likes > a.likes) ? 1 : -1).map(blog =>
         <BlogsPanelEntry key={blog.id} blog={blog} />
       )}

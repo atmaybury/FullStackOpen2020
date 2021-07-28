@@ -26,6 +26,7 @@ export const addBlog = blog => {
         type: 'NEW_BLOG',
         data: newBlog
       })
+      dispatch(notify(true, `new blog added: ${blog.title}`, 5))
     } catch (error) {
       dispatch(notify(false, `error: ${error.response.data.error}`, 5))
     }

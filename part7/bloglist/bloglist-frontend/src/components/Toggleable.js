@@ -1,5 +1,6 @@
 import React, { useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
+import { Button } from './styles/Buttons.style'
 
 const Toggleable = React.forwardRef((props, ref) => {
   Toggleable.propTypes = {
@@ -24,7 +25,7 @@ const Toggleable = React.forwardRef((props, ref) => {
   return(
     <div>
       <div style={hideWhenVisible}>
-        <button id={props.id} onClick={toggleVisibility}>{props.buttonLabel}</button>
+        <Button id={props.id} onClick={toggleVisibility}>{props.buttonLabel}</Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}

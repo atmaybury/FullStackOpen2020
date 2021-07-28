@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Switch, Route, useRouteMatch } from 'react-router-dom'
+import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { checkLoggedInUser } from './reducers/loginReducer'
 import { initUsers } from './reducers/userReducer'
@@ -17,6 +17,7 @@ import Toggleable from './components/Toggleable'
 const App = () => {
 
   const dispatch = useDispatch()
+  const history = useHistory()
   const user = useSelector(state => state.user)
   const users = useSelector(state => state.users)
   const blogs = useSelector(state => state.blogs)
@@ -30,6 +31,8 @@ const App = () => {
     if (user) {
       dispatch(initUsers())
       dispatch(initBlogs())
+    } else {
+      history.push('/')
     }
   }, [user])
 
@@ -65,8 +68,6 @@ const App = () => {
       <Header />
 
       <Notification />
-
-      <h2>blogs</h2>
 
       <Switch>
 

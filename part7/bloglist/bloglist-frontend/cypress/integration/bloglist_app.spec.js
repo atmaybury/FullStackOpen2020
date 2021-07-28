@@ -36,7 +36,7 @@ describe('bloglist app', function() {
       cy.get('#username-input').type(user.username)
       cy.get('#password-input').type('wrongpassword')
       cy.get('#login-button').click()
-      cy.get('#notification').should('contain', 'wrong credentials')
+      cy.get('#notification').should('contain', 'invalid username or password')
         .and('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
@@ -60,6 +60,11 @@ describe('bloglist app', function() {
       likes: 3
     }
 
+    it('user can log out', function() {
+      cy.logout()
+      cy.get('#blogs').should('not.exist')
+    })
+
     it('a new blog can be added', function() {
       cy.get('#toggle-add-blog-form').click()
       cy.get('#blog-title-input').type(newBlog.title)
@@ -74,25 +79,25 @@ describe('bloglist app', function() {
 
     it('user can like blog', function() {
       cy.addBlog(newBlog)
-      cy.get('#blogs').contains('>').click()
+      cy.get('#blogs').contains('test blog title').click()
       cy.get('.like-button').click()
       cy.get('.likes').contains('5')
     })
 
     it('user can delete blog if they added it', function() {
       cy.addBlog(newBlog)
-      cy.get('#blogs').contains('>').click()
+      cy.get('#blogs').contains('test blog title').click()
       cy.get('.delete-button').click()
       cy.get('#blogs').should('not.contain', newBlog.title)
         .and('not.contain', newBlog.author)
     })
 
-    it('user cannot delete blog if they didn\'t add it', function() {
+    it.only('user cannot delete blog if they didn\'t add it', function() {
       cy.addBlog(newBlog)
       cy.logout()
       cy.login(user2)
-      cy.get('#blogs').contains('>').click()
-      cy.should('not.contain', '.delete-button')
+      cy.get('#blogs').contains('test blog title').click()
+      cy.get('.blog').should('not.contain', '.delete-button')
     })
 
     it('blogs are ordered according to most likes', function() {
